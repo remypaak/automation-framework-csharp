@@ -12,7 +12,8 @@ namespace BatchIntegrationServiceReference
             {
                 using (var client = ClientFactory.CreateBatchServiceClient())
                 {
-                    BatchHelper.WaitForAllBatchedToBeExecuted();
+                    RequestBase requestBase = new RequestBase();
+                    Retry.RetryUntilConditionIsMet(() => client.IsAnyBatchBeingExecuted(requestBase), TimeSpan.FromSeconds(5), 20).Until(r => !r);
                     return operation(client, request);
                 }
             }
@@ -28,7 +29,8 @@ namespace BatchIntegrationServiceReference
             {
                 using (var client = ClientFactory.CreateBatchServiceClient())
                 {
-                    BatchHelper.WaitForAllBatchedToBeExecuted();
+                    RequestBase requestBase = new RequestBase();
+                    Retry.RetryUntilConditionIsMet(() => client.IsAnyBatchBeingExecuted(requestBase), TimeSpan.FromSeconds(5), 20).Until(r => !r);
                     operation(client, request);
                 }
             }
@@ -45,7 +47,8 @@ namespace BatchIntegrationServiceReference
             {
                 using (var client = ClientFactory.CreateBatchServiceClient())
                 {
-                    BatchHelper.WaitForAllBatchedToBeExecuted();
+                    RequestBase requestBase = new RequestBase();
+                    Retry.RetryUntilConditionIsMet(() => client.IsAnyBatchBeingExecuted(requestBase), TimeSpan.FromSeconds(5), 20).Until(r => !r);
                     return operation(client, request);
                 }
             }

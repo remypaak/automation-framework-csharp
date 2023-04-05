@@ -9,12 +9,6 @@ namespace CloseTestAutomation.TestSuite.BaseTestFixtures
     {
         protected WebdriverWrapper WebDriver { get; private set; }
 
-        [OneTimeSetUp]
-        public virtual void OneTimeSetUp()
-        {
-            // Set up any one-time environment configuration here
-        }
-
         [SetUp]
         public virtual void SetUp()
         {

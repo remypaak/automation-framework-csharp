@@ -2,6 +2,10 @@
 using System.Collections.ObjectModel;
 using OpenQA.Selenium.Support.UI;
 using CloseTestAutomation.Utilities.Enums;
+using CloseTestAutomation.Utilities.PageObjects;
+using CloseTestAutomation.Utilities.Helpers;
+using CloseTestAutomation.Utilities.Database;
+
 namespace CloseTestAutomation.Utilities.Webdriver
 {
     public class WebdriverWrapper : IWebDriver
@@ -64,7 +68,7 @@ namespace CloseTestAutomation.Utilities.Webdriver
             }
         }
 
-        public void SetDropdownItem(IWebElement element, Enum value, int waitTime = 5)
+        public void SelectDropdownItem(IWebElement element, Enum value, int waitTime = 5)
         {
             try
             {
@@ -86,12 +90,65 @@ namespace CloseTestAutomation.Utilities.Webdriver
         {
             try
             {
-                return _wait.Until(e => e.FindElement(selector));
+                return _wait.Until(e => { var element = e.FindElement(selector);
+                        if (element.Displayed && element.Enabled)
+                        {
+                        return element;
+                        }
+                        return null;
+                        });
             }
             catch (Exception innerException)
             {
                 throw new Exception($"Failed to get element with selector {selector}", innerException);
             }
+        }
+        public IList<IWebElement> GetElements(By selector)
+        {
+            try
+            {
+                return _wait.Until(d => d.FindElements(selector).ToList());
+            }
+            catch (Exception innerException)
+            {
+                throw new Exception($"Failed to get elements with selector {selector}", innerException);
+            }
+        }
+
+        public string GetAttribute(By selector, string attribute)
+        {
+            try
+            {
+                IWebElement element = GetElement(selector);
+                return element.GetAttribute(attribute);
+            }
+            catch (Exception innerException)
+            {
+                throw new Exception($"Failed to get the attribute {attribute} with selector {selector}", innerException);
+            }
+        }
+
+        public string GetAttribute(IWebElement element, string attribute)
+        {
+            try
+            {
+                return element.GetAttribute(attribute);
+            }
+            catch (Exception innerException)
+            {
+                throw new Exception($"Failed to get the attribute {attribute} of element {element}", innerException);
+            }
+        }
+
+        public void SetDate(IWebElement element, DateTime date)
+        {
+            DatePicker datepicker = new DatePicker(this);
+            datepicker.SetDate(element, date);
+        }
+
+        public void SetDate(IWebElement element, string date)
+        {
+            SetText(element, date);
         }
     }
 }

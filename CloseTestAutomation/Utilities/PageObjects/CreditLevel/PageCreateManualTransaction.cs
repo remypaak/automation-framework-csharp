@@ -9,7 +9,7 @@ namespace CloseTestAutomation.Utilities.PageObjects.CreditLevel
 
     public enum TransactionType
     {
-        [System.ComponentModel.Description("PAYMENTALLOCATION")]
+        [System.ComponentModel.Description("Payment allocation")]
         PaymentAllocation
     }
 
@@ -27,13 +27,19 @@ namespace CloseTestAutomation.Utilities.PageObjects.CreditLevel
 
         IWebElement amountField => _driver.GetElement(By.Name("AmountColon"));
 
+        IWebElement valueDateDatePicker => _driver.GetElement(By.CssSelector("[name=\"ValueDateColon\"] .pi-calendar"));
+
+        IWebElement saveButton => _driver.GetElement(By.CssSelector("[type=\"submit\" ]"));
 
 
-        public void CreateManualTransaction(TransactionType transactionType, double amount)
+
+        public void CreateManualTransaction(TransactionType transactionType, double amount, DateTime valueDate)
         {
             _driver.Click(createButton);
-            _driver.SetDropdownItem(transactionTypeDropdown, transactionType);
+            _driver.SelectDropdownItem(transactionTypeDropdown, transactionType);
             _driver.SetText(amountField, amount.ToString());
+            _driver.SetDate(valueDateDatePicker, valueDate);
+            _driver.Click(saveButton);
         }
 
     }

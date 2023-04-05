@@ -1,7 +1,6 @@
 ﻿using CloseLoansIntegrationServiceReference;
 using CloseTestAutomation.Config;
 using CloseTestAutomation.TestSuite.BaseTestFixtures;
-using CloseTestAutomation.Utilities.Database.CreditBalances;
 using CloseTestAutomation.Utilities.Helpers;
 using CloseTestAutomation.Utilities.PageObjects.BasePages;
 using CloseTestAutomation.Utilities.PageObjects.CreditLevel;
@@ -17,9 +16,6 @@ namespace CloseTestAutomation.TestSuite.NavigateToCreateManualTransaction
         [Test]
         public void NavigateToCreateManualTransaction()
         {
-            CreditBalancesDB creditBalances = CreditBalancesDBQuery.GetCreditBalancesByCreditReference("DepotSched01");
-            Console.WriteLine(creditBalances.Bonus);
-            /*
             string creditDossierExternalReference = Randomizer.GetRandomString();
             string creditExternalReference = creditDossierExternalReference + Randomizer.GetRandomNumberString(2);
             
@@ -44,9 +40,9 @@ namespace CloseTestAutomation.TestSuite.NavigateToCreateManualTransaction
 
             var pageCreateManualTransaction = new PageCreateManualTransaction(WebDriver);
             pageCreateManualTransaction.NavigateTo(new DossierLevelBasePageObject(WebDriver), 1);
-            pageCreateManualTransaction.CreateManualTransaction(TransactionType.PaymentAllocation, 500.00);
+            pageCreateManualTransaction.CreateManualTransaction(TransactionType.PaymentAllocation, 500.00, new DateTime(2016, 2, 2));
             Thread.Sleep(10000);
-            */
+            
 
 
         }

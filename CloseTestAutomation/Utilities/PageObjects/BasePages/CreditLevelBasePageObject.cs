@@ -35,9 +35,7 @@ namespace CloseTestAutomation.Utilities.PageObjects.BasePages
             {
                 SelectCredit(creditIndex);
                 if (FinanceMenuPages.Contains(Title)) {
-                    Console.WriteLine("Zoek Finance Menu");
                     _driver.Click(financeMenu);
-                    Console.WriteLine("Finance Menu gevonden");
                 }
                 var navigationPage = NavigationPage(Title);
                 _driver.Click(navigationPage);
