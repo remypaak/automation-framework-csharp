@@ -24,7 +24,7 @@ namespace CloseTestAutomation.Utilities.PageObjects.WideLevel
 
         public void SelectCreditDosser(string dossierExternalReference)
         {
-            _driver.SetText(creditDossierNumberField, dossierExternalReference, 30);
+            _driver.SetText(creditDossierNumberField, dossierExternalReference);
             _driver.Click(searchCreditButton);
             _driver.Click(GetCreditDossierResultNav());
 

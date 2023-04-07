@@ -35,25 +35,42 @@ namespace CloseTestAutomation.Utilities.Webdriver
         public INavigation Navigate() => _driver.Navigate();
         public ITargetLocator SwitchTo() => _driver.SwitchTo();
 
-        public IWebElement GetDropdownItem(Enum value)
+        public IWebElement GetDropdownItem<TEnum>(Enum value) where TEnum : Enum
         {
-            Console.WriteLine(EnumExtensions.GetEnumDescription(value));
-            return GetElement(By.CssSelector($"[aria-label=\"{EnumExtensions.GetEnumDescription(value)}\"]"));
+            var table_name = EnumExtensions.GetEnumTypeDescription<TEnum>();
+            var enumCaption = EnumExtensions.GetEnumDescription(value);
+            return GetElement(By.CssSelector($"[aria-label=\"{CachedCodeTables.GetTranslation(table_name, enumCaption)}\"]"));
         }
         public void Click(IWebElement element)
         {
             try
             {
                 _wait.Until(e => element.Displayed && element.Enabled);
-                element.Click();
-            }
-            catch (Exception innerException){
-                throw new Exception($"Failed to find clickable element {element}", innerException);
 
+                Retry.RetryUntilConditionIsMet(() =>
+                {
+                    try
+                    {
+                        element.Click();
+                        return true;
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return false;
+                    }
+                    catch (ElementClickInterceptedException)
+                    {
+                        return false;
+                    }
+                }, TimeSpan.FromSeconds(10), 5).Until(success => success);
+            }
+            catch (Exception innerException)
+            {
+                throw new Exception($"Failed to find clickable element {element}", innerException);
             }
         }
 
-        public void SetText(IWebElement element, string value, int waitTime = 5)
+        public void SetText(IWebElement element, string value)
         {
             try
             {
@@ -68,13 +85,13 @@ namespace CloseTestAutomation.Utilities.Webdriver
             }
         }
 
-        public void SelectDropdownItem(IWebElement element, Enum value, int waitTime = 5)
+        public void SelectDropdownItem<TEnum>(IWebElement element, TEnum value) where TEnum : Enum
         {
             try
             {
                 _wait.Until(e => element.Displayed && element.Enabled);
                 element.Click();
-                IWebElement drop_down_element = GetDropdownItem(value);
+                IWebElement drop_down_element = GetDropdownItem<TEnum>(value);
                 _wait.Until(e => drop_down_element.Displayed && drop_down_element.Enabled);
                 drop_down_element.Click();
 
@@ -90,13 +107,7 @@ namespace CloseTestAutomation.Utilities.Webdriver
         {
             try
             {
-                return _wait.Until(e => { var element = e.FindElement(selector);
-                        if (element.Displayed && element.Enabled)
-                        {
-                        return element;
-                        }
-                        return null;
-                        });
+                return _wait.Until(d => d.FindElement(selector));
             }
             catch (Exception innerException)
             {
@@ -115,6 +126,30 @@ namespace CloseTestAutomation.Utilities.Webdriver
             }
         }
 
+        public string GetText(By selector)
+        {
+            try
+            {
+                var element = _wait.Until(d => d.FindElement(selector));
+                return element.Text;
+            }
+            catch (Exception innerException)
+            {
+                throw new Exception($"Failed to get text of element with selector {selector}", innerException);
+            }
+        }
+        public string GetText(IWebElement element)
+        {
+            try
+            {
+                return element.Text;
+            }
+            catch (Exception innerException)
+            {
+                throw new Exception($"Failed to get text of element {element}", innerException);
+            }
+
+        }
         public string GetAttribute(By selector, string attribute)
         {
             try

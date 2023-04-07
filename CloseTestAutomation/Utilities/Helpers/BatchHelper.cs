@@ -3,7 +3,7 @@
 namespace CloseTestAutomation.Utilities.Helpers
 {
     
-    public class BatchHelper
+    public static class BatchHelper
     {
         public static void WaitForAllBatchedToBeExecuted()
         {

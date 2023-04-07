@@ -11,10 +11,10 @@ using CloseTestAutomation.Utilities.SOAP.DefaultObjects;
 namespace CloseTestAutomation.TestSuite.NavigateToCreateManualTransaction
 {
     [TestFixture]
-    public class TestNavigateToCreateManualTransaction : BaseTestFixture
+    public class CreateManualTransaction : BaseTestFixture
     {
         [Test]
-        public void NavigateToCreateManualTransaction()
+        public void CreateCreditBonusByCreatingManualTransaction()
         {
             string creditDossierExternalReference = Randomizer.GetRandomString();
             string creditExternalReference = creditDossierExternalReference + Randomizer.GetRandomNumberString(2);

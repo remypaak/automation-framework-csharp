@@ -25,6 +25,12 @@ namespace CloseTestAutomation.Utilities.Enums
             }
             return value.ToString();
         }
+        public static string GetEnumTypeDescription<TEnum>() where TEnum : Enum
+        {
+            Type type = typeof(TEnum);
+            DescriptionAttribute attr = Attribute.GetCustomAttribute(type, typeof(DescriptionAttribute)) as DescriptionAttribute;
+            return attr?.Description ?? type.Name;
+        }
 
     }
 }

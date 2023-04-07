@@ -22,17 +22,15 @@ namespace CloseTestAutomation.Utilities.PageObjects
 
         private void SetYear(int year)
         {
-            Console.WriteLine(year.ToString());
             _driver.Click(_driver.GetElement(By.CssSelector(".p-datepicker-year")));
             while (year < int.Parse(GetDecade().Substring(0, 4)))
             {
                 _driver.Click(_driver.GetElement(By.CssSelector(".p-datepicker-prev-icon")));
             }
-            while (year > int.Parse(GetDecade().Substring(5, 4)))
+            while (year > int.Parse(GetDecade().Substring(7, 4)))
             {
                 _driver.Click(_driver.GetElement(By.CssSelector(".p-datepicker-next")));
             }
-            Console.WriteLine("Gehaald totdat ik de GetElements aan roep met index");
             _driver.Click(_driver.GetElements(By.ClassName("p-yearpicker-year"))[year % 10]);
         }
 
@@ -44,17 +42,17 @@ namespace CloseTestAutomation.Utilities.PageObjects
         private void SetDay(int day)
         {
             int deltaFromSaturday = (DateFirstSaturday() % 7 == 0) ? 7 : DateFirstSaturday() % 7;
-            _driver.Click(_driver.GetElements(By.CssSelector(".p-datepicker-calendar .p-element"))[day + (7 - deltaFromSaturday - 1)]);
+            _driver.Click(_driver.GetElements(By.CssSelector(".p-datepicker-calendar .p-element"))[day + (7 - deltaFromSaturday - 2)]);
         }
 
         private string GetDecade()
         {
-            return _driver.GetAttribute(By.ClassName("p-datepicker-decade"), "value");
+            return _driver.GetText(By.ClassName("p-datepicker-decade"));
         }
 
         private int DateFirstSaturday()
         {
-            return int.Parse(_driver.GetAttribute(_driver.GetElements(By.CssSelector(".p-datepicker-calendar .p-element"))[6], "value"));
+            return int.Parse(_driver.GetText(_driver.GetElements(By.CssSelector(".p-datepicker-calendar .p-element"))[5]));
         }
     }
 }

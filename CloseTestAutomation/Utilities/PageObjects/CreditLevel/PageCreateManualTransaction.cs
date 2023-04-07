@@ -1,4 +1,5 @@
-﻿using CloseTestAutomation.Utilities.PageObjects.BasePages;
+﻿using CloseTestAutomation.Utilities.Helpers;
+using CloseTestAutomation.Utilities.PageObjects.BasePages;
 using CloseTestAutomation.Utilities.Webdriver;
 using OpenQA.Selenium;
 
@@ -6,10 +7,10 @@ using OpenQA.Selenium;
 namespace CloseTestAutomation.Utilities.PageObjects.CreditLevel
 {
 
-
+    [System.ComponentModel.Description("txtype")]
     public enum TransactionType
     {
-        [System.ComponentModel.Description("Payment allocation")]
+        [System.ComponentModel.Description("PAYMENTALLOCATION")]
         PaymentAllocation
     }
 
