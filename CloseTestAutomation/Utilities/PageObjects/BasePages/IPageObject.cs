@@ -7,8 +7,6 @@ namespace CloseTestAutomation.Utilities.PageObjects.BasePages
     {
         public WebdriverWrapper _driver { get; set; }
         public static string? Title { get; }
-
-        public void NavigateTo(IPageObject? currentPageObject, int creditIndex =0);
     }
 }
     

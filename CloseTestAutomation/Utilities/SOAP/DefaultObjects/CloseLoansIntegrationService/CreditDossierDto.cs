@@ -1,5 +1,6 @@
 ﻿using CloseLoansIntegrationServiceReference;
 using CloseTestAutomation.Utilities.Helpers;
+using CloseTestAutomation.Utilities.SOAP.DefaultObjects.CloseLoansIntegrationService;
 
 namespace CloseTestAutomation.Utilities.SOAP.DefaultObjects
 {
@@ -13,8 +14,8 @@ namespace CloseTestAutomation.Utilities.SOAP.DefaultObjects
                 TotalFinanceAmount = 600000M,
                 DeedDate = new DateTime(2015, 12, 31),
                 PaymentOutList = new Payment[] { DefaultPayment.CreateDefaultPaymentOut() },
-                CreditList = new CreditDto[] {DefaultCreditDto.CreateDefaultCreditPrecomputed()}
-                // Set other default values as needed
+                CreditList = new CreditDto[] {DefaultCreditDto.CreateDefaultCreditPrecomputed()},
+                ConstructionDepotList = new ConstructionDepot[] { DefaultConstructionDepot.CreateDefaultConstructionDepot()}
             };
         }
     }

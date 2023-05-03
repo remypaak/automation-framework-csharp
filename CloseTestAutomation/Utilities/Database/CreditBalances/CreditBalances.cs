@@ -1,7 +1,11 @@
-﻿namespace CloseTestAutomation.Utilities.Database.CreditBalances
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CloseTestAutomation.Utilities.Database.CreditBalances
 {
+    [Table("creditbalances")]
     public class CreditBalancesDB
     {
+        [Column("bonus")]
         public decimal Bonus { get; set; }
     }
 

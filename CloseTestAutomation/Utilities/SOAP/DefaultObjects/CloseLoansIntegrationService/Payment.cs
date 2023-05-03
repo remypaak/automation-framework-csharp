@@ -9,7 +9,7 @@ namespace CloseTestAutomation.Utilities.SOAP.DefaultObjects
         {
             return new PaymentOut
             {
-                Amount = 600000M,
+                Amount = 595000M,
                 Country = "NL",
                 PayeeName = "Test",
                 PaymentId = Randomizer.GetRandomString(),

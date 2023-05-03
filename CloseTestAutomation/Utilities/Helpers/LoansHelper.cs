@@ -9,7 +9,8 @@ namespace CloseTestAutomation.Utilities.Helpers
         public static void CreateMortgageDossier(MortgageLoanRequest request)
         {
             CreditResponse response = CloseLoansIntegrationClient.ExecuteOperation(request, (client, request) => client.CreateMortgageDossierRequest(request));
-            RunBatchRequest batchRequest = new RunBatchRequest { BatchName = new BatchNameDto { CodeId = (int)ParBatchName.ProcessMortgageDossierRequestPayments } };
+            Console.WriteLine(response.CreditResult.IsSuccessful.ToString());
+            RunBatchRequest batchRequest = new RunBatchRequest { BatchName = new BatchNameDto { CodeId = CachedCodeTables.GetCodeId("batchname", "PROCESSMORTGAGEDOSSIERREQUESTPAYMENTS") } };
             RunBatchResponse batchResponse = BatchClient.ExecuteOperation(batchRequest, (client, request) => client.RunBatch(request));
 
             UpdateMortgageDossierRequestStatusRequest updateMortgageRequest = new UpdateMortgageDossierRequestStatusRequest

@@ -39,7 +39,7 @@ namespace CloseTestAutomation.TestSuite.NavigateToCreateManualTransaction
             pageDossierSearch.SelectCreditDosser(request.CreditDossier.ExternalReference);
 
             var pageCreateManualTransaction = new PageCreateManualTransaction(WebDriver);
-            pageCreateManualTransaction.NavigateTo(new DossierLevelBasePageObject(WebDriver), 1);
+            pageCreateManualTransaction.NavigateTo(new DossierLevelBasePageObject(WebDriver), creditReference: creditExternalReference);
             pageCreateManualTransaction.CreateManualTransaction(TransactionType.PaymentAllocation, 500.00, new DateTime(2016, 2, 2));
             Thread.Sleep(10000);
             

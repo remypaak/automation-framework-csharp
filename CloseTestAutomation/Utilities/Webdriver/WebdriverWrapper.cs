@@ -39,7 +39,7 @@ namespace CloseTestAutomation.Utilities.Webdriver
         {
             var table_name = EnumExtensions.GetEnumTypeDescription<TEnum>();
             var enumCaption = EnumExtensions.GetEnumDescription(value);
-            return GetElement(By.CssSelector($"[aria-label=\"{CachedCodeTables.GetTranslation(table_name, enumCaption)}\"]"));
+            return GetElement(By.CssSelector($"[aria-label=\"{CachedCodeTables.GetTranslationName(table_name, enumCaption)}\"]"));
         }
         public void Click(IWebElement element)
         {
@@ -118,7 +118,8 @@ namespace CloseTestAutomation.Utilities.Webdriver
         {
             try
             {
-                return _wait.Until(d => d.FindElements(selector).ToList());
+                _wait.Until(d => d.FindElement(selector));
+                return _driver.FindElements(selector).ToList();
             }
             catch (Exception innerException)
             {

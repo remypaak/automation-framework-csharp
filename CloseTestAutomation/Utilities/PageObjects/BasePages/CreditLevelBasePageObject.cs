@@ -15,29 +15,38 @@ namespace CloseTestAutomation.Utilities.PageObjects.BasePages
         "MANAGE REVERSE TX", "DIRECT DEBIT", "VIEW DIRECT DEBIT INFO", "REMISSION OF DUE"};
 
         
-        public IWebElement GetCreditReferenceNav(int creditIndex)
+        public IWebElement GetCreditReferenceNav(string creditReference)
         {
-            return _driver.GetElement(By.XPath($"((//*[@id=\"CreditDossierInfo\"])//following-sibling::div//*[@for=\"68CreditReference\"]//following-sibling::div//a)[{creditIndex}]"));
+            var elements = _driver.GetElements(By.XPath($"(//*[@id=\"CreditDossierInfo\"])//following-sibling::div//*[@for=\"68CreditReference\"]//following-sibling::div//a/span"));
+            foreach (var element in elements)
+            {
+                if (_driver.GetText(element) == creditReference){
+                    return element;
+                }
+            }
+            throw new Exception($"credit reference {creditReference} is not visible in Credit Dossier Overview");
+            
         }
 
-        public IWebElement NavigationPage(string pageTitle)
+        public IWebElement GetPageToNavigateTo(string pageTitle)
         {
             return _driver.GetElement(By.CssSelector($"[title=\"{pageTitle}\"]"));
         }
         IWebElement financeMenu => _driver.GetElement(By.CssSelector("[title=\"FINANCE\"]"));
-        public void NavigateTo(IPageObject? currentPageObject, int creditIndex)
+        public void NavigateTo(IPageObject? currentPageObject, string dossierReference = "", string creditReference = "")
         {
+            
             if (currentPageObject is CreditLevelBasePageObject)
             {
 
             }
             else if (currentPageObject is DossierLevelBasePageObject)
             {
-                SelectCredit(creditIndex);
+                SelectCredit(creditReference);
                 if (FinanceMenuPages.Contains(Title)) {
                     _driver.Click(financeMenu);
                 }
-                var navigationPage = NavigationPage(Title);
+                var navigationPage = GetPageToNavigateTo(Title);
                 _driver.Click(navigationPage);
 
             }
@@ -47,9 +56,9 @@ namespace CloseTestAutomation.Utilities.PageObjects.BasePages
             }
         }
 
-        public void SelectCredit(int creditIndex)
+        public void SelectCredit(string creditReference)
         {
-            _driver.Click(GetCreditReferenceNav(creditIndex));
+            _driver.Click(GetCreditReferenceNav(creditReference));
 
         }
     }

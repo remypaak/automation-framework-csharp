@@ -12,7 +12,7 @@ namespace CloseTestAutomation.Utilities.PageObjects.BasePages
         public WideLevelBasePageObject(WebdriverWrapper driver){
             _driver = driver;
         }
-        public void NavigateTo(IPageObject? currentPageObject, int creditIndex = 0)
+        public void NavigateTo(IPageObject? currentPageObject, string dossierReference = "", string creditReference = "")
         {
             
         }

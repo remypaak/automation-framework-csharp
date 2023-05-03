@@ -1,4 +1,6 @@
 ﻿using CloseTestAutomation.Utilities.SOAP.Clients;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CloseLoansIntegrationServiceReference
 {
@@ -11,16 +13,28 @@ namespace CloseLoansIntegrationServiceReference
             {
                 using (var client = ClientFactory.CreateCloseLoansIntegrationServiceClient())
                 {
-                    return operation(client, request);
+                    var response = operation(client, request);
+                    CheckIfErrorMessage(response);
+                    return response;
                 }
             }
-            catch (Exception innerException)
+            catch (Exception ex)
             {
-                // Handle exception or throw it
-                throw new CloseLoansIntegrationException($"Failing while trying to call the operation {operation} with request {request}", innerException);
+                string requestJson = JsonConvert.SerializeObject(request, Formatting.Indented);
+                throw new CloseLoansIntegrationException($"Failing while trying to call the operation {typeof(TRequest).Name} and request : {requestJson}", ex);
             }
         }
-        // You can add other methods here
+
+        public static void CheckIfErrorMessage<TResponse>(TResponse response)
+        {
+            string responseJson = JsonConvert.SerializeObject(response, Formatting.Indented);
+            JObject responseJObject = JObject.Parse(responseJson);
+            JToken firstChild = responseJObject.First?.First;
+            if (firstChild is JObject firstChildObject && firstChildObject.TryGetValue("ErrorMessage", out JToken errorMessage) && !string.IsNullOrEmpty(errorMessage?.ToString()))
+            {
+                throw new CloseLoansIntegrationException("The response contains an error message: " + responseJson);
+            }
+        }
 
         public class CloseLoansIntegrationException : Exception
         {

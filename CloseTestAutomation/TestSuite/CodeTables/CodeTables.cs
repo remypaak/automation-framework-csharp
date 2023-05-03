@@ -10,8 +10,6 @@ namespace CloseTestAutomation.TestSuite.CodeTables
         [Test]
         public void GetCodeTables()
         {
-            Console.WriteLine(CachedCodeTables.GetTranslation("txtype", "PAYMENTALLOCATION"));
-            Console.WriteLine(CachedCodeTables.GetTranslation("gender", "MALE"));
         }
     }
 }

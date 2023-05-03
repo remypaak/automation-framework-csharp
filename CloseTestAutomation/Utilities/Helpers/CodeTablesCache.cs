@@ -17,7 +17,7 @@ namespace CloseTestAutomation.Utilities.Helpers
             _codeTables = new List<CodeTable>();
         }
 
-        public static string GetTranslation(string tableName, string enumCaption)
+        public static string GetTranslationName(string tableName, string enumCaption)
         {
 
             if (!_codeTables.Any(ct => ct.TableTranslations.ContainsKey(tableName)))
@@ -38,6 +38,28 @@ namespace CloseTestAutomation.Utilities.Helpers
             var targetCodeTable = _codeTables.FirstOrDefault(ct => ct.TableTranslations.ContainsKey(tableName));
             var targetTranslation = targetCodeTable.TableTranslations[tableName].FirstOrDefault(t => t.Enum == enumCaption);
             return targetTranslation.Translation;
+        }
+        public static int GetCodeId(string tableName, string enumCaption)
+        {
+
+            if (!_codeTables.Any(ct => ct.TableTranslations.ContainsKey(tableName)))
+            {
+                GCTGetCodetableTranslationsRequest translationsRequest = new GCTGetCodetableTranslationsRequest() { Codetable = tableName, Language = LanguageEnum.English };
+                var translations = CloseLoansIntegrationClient.ExecuteOperation(translationsRequest, (client, request) => client.GetCodetableTranslations(request));
+
+                var codeTable = new CodeTable
+                {
+                    TableTranslations = new Dictionary<string, GCTGetCodetableTranslations[]>
+                {
+                    { tableName, translations.Translations }
+                }
+                };
+
+                _codeTables.Add(codeTable);
+            }
+            var targetCodeTable = _codeTables.FirstOrDefault(ct => ct.TableTranslations.ContainsKey(tableName));
+            var targetTranslation = targetCodeTable.TableTranslations[tableName].FirstOrDefault(t => t.Enum == enumCaption);
+            return targetTranslation.CodeId;
         }
     }
 }
