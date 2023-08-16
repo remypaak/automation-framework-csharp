@@ -1,7 +1,7 @@
 {
   "ExtendedData": {
     "inputs": [
-      "https://closebo-d14.dev.davincicloud.nl/services/BatchIntegrationService.svc?singlewsdl"
+      "https://test.svc?singlewsdl"
     ],
     "collectionTypes": [
       "System.Array",
